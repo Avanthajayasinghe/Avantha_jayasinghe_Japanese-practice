@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avantha Jayasinghe Japanese Learning Hub</title>
+  <style>
+    :root {
+      --primary-color: #c62828; /* Traditional Japanese Red (Torii/Akai) */
+      --primary-dark: #b71c1c;
+      --accent-gold: #d4af37;
+      --success-color: #2e7d32;
+      --error-color: #c62828;
+      --bg-color: #fcf8f5;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      /* Traditional Japanese Aesthetic Background with Sakura/Nature Vibe */
+      background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                  url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1600&auto=format&fit=crop') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 35px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+    }
+
+    h2 { 
+      color: #880e4f; 
+      margin-bottom: 5px; 
+      font-family: 'Georgia', serif;
+      letter-spacing: 1px;
+    }
+
+    .subtitle-designer {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 25px;
+      font-style: italic;
+      border-bottom: 2px dashed #d4af37;
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+
+    h3 { margin-top: 0; color: #37474f; }
+
+    button {
+      font-size: 16px;
+      padding: 12px 24px;
+      margin: 8px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(198, 40, 40, 0.3);
+      font-weight: bold;
+    }
+
+    button:hover { 
+      background: var(--primary-dark); 
+      transform: translateY(-3px); 
+      box-shadow: 0 6px 15px rgba(198, 40, 40, 0.4);
+    }
+
+    .home-menu button, .menu-btn-group button {
+      display: block;
+      width: 85%;
+      margin: 14px auto;
+      font-size: 18px;
+      padding: 15px;
+      background: linear-gradient(135deg, #c62828, #880e4f);
+      border-radius: 12px;
+    }
+
+    .optionBtn {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      padding: 15px;
+      font-size: 18px;
+      border: 2px solid #ffccbc;
+      border-radius: 10px;
+      background: white;
+      color: #333;
+      text-align: center;
+      transition: all 0.2s;
+      cursor: pointer;
+      box-shadow: none;
+      font-weight: normal;
+    }
+
+    .optionBtn:hover {
+      border-color: var(--primary-color);
+      background: #fbe9e7;
+      transform: none;
+    }
+
+    .optionBtn.correct { background: #c8e6c9 !important; border-color: #388e3c !important; color: #1b5e20; }
+    .optionBtn.wrong { background: #ffcdd2 !important; border-color: #d32f2f !important; color: #b71c1c; }
+
+    #kanjiBox, #charBox {
+      font-size: 100px;
+      line-height: 1.2;
+      margin: 15px 0;
+      color: #1a1a1a;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .scoreBox {
+      font-size: 18px;
+      color: #444;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .resultMsg {
+      font-size: 20px;
+      font-weight: bold;
+      min-height: 30px;
+      margin-top: 10px;
+    }
+
+    .part-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      text-align: left;
+      margin: 15px 0;
+      max-height: 220px;
+      overflow-y: auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #b0bec5;
+      margin: 10px;
+      width: 60%;
+      background: white;
+    }
+
+    .section-area { display: none; }
+
+    /* Speaker Button Style */
+    .speaker-btn {
+      background: #ff8f00;
+      font-size: 20px;
+      padding: 10px 18px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: 0.2s;
+      box-shadow: 0 4px 10px rgba(255, 143, 0, 0.3);
+    }
+    .speaker-btn:hover { background: #ef6c00; transform: scale(1.1); }
+
+    /* Animation Styles for End Screen */
+    .animation-box {
+      font-size: 55px;
+      margin: 20px 0;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+
+    .fireworks {
+      animation: celebrate 0.8s infinite alternate;
+    }
+
+    @keyframes celebrate {
+      0% { transform: scale(1); filter: hue-rotate(0deg); }
+      100% { transform: scale(1.2); filter: hue-rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>🌸 Japanese Learning Hub 🌸</h2>
+  <div class="subtitle-designer">Created by Avantha Jayasinghe</div>
+
+  <!-- 1. MAIN HOME PAGE -->
+  <div id="homeMenu" class="home-menu">
+    <h3>ඔබට පුහුණු වීමට අවශ්‍ය අංශය තෝරන්න</h3>
+    <button onclick="showSection('charSection')">✍️ අකුරු Practice (Hiragana & Katakana)</button>
+    <button onclick="showSection('vocabSection')">📖 වචන Practice (Vocabulary)</button>
+    <button onclick="showSection('kanjiSection')">💠 Kanji Practice (JLPT)</button>
+  </div>
+
+  <!-- ================= 2. CHARACTER PRACTICE ================= -->
+  <div id="charSection" class="section-area">
+    <div id="charMenu" class="menu-btn-group">
+      <h3>අකුරු පුහුණුව (Characters Practice)</h3>
+      <p>අවශ්‍ය අකුරු වර්ගය තෝරන්න:</p>
+      <button onclick="startCharQuiz('hiragana')">Hiragana</button>
+      <button onclick="startCharQuiz('katakana')">Katakana</button>
+      <button onclick="startCharQuiz('all')">අකුරු කොත්තුව (Hiragana & Katakana)</button>
+      <br>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <div id="charQuizArea" style="display:none;">
+      <div class="scoreBox">
+        <span id="charProgress">Question 0/0</span>
+        <span id="charScoreText">Score: 0</span>
+      </div>
+      <div id="charBox">あ</div>
+      <div id="charOptions"></div>
+      <div id="charResultMsg" class="resultMsg"></div>
+      <button style="background: #546e7a; margin-top: 15px;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <!-- Character End Result Area -->
+    <div id="charFinalResultArea" style="display:none;">
+      <h3>අවසාන ප්‍රතිඵලය</h3>
+      <div id="charFinalAnimation" class="animation-box">🎉</div>
+      <div id="charFinalResultText" style="font-size: 22px; font-weight: bold; margin: 15px 0;"></div>
+      <div id="charFinalMessage" style="font-size: 18px; color: #444; margin-bottom: 20px;"></div>
+      <button onclick="showSection('charSection')">🔄 නැවත උත්සාහ කරන්න</button>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+  </div>
+
+  <!-- ================= 3. VOCABULARY PRACTICE ================= -->
+  <div id="vocabSection" class="section-area">
+    <div id="vocabMenu" class="menu-btn-group">
+      <h3>වචන පුහුණුව (Vocabulary Test)</h3>
+      <p>Level එක තෝරන්න:</p>
+      <button onclick="setupVocabLevel('N5')">N5 Level Vocabulary</button>
+      <button onclick="setupVocabLevel('N4')">N4 Level Vocabulary</button>
+      <button onclick="setupVocabLevel('N3')">N3 Level Vocabulary</button>
+      <br>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <!-- Vocab Sub-Menu for Categories/Direction -->
+    <div id="vocabSubMenu" style="display:none;" class="menu-btn-group">
+      <h3 id="vocabLevelTitle"></h3>
+      <p>Direction තෝරන්න:</p>
+      <button onclick="startVocabQuiz('jp-si')">Japanese ➝ Sinhala</button>
+      <button onclick="startVocabQuiz('si-jp')">Sinhala ➝ Japanese</button>
+      <br>
+      <button style="background: #546e7a;" onclick="showVocabMain()">◀ Back</button>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <!-- Vocab Active Quiz Area -->
+    <div id="vocabQuizArea" style="display:none;">
+      <div class="scoreBox">
+        <span id="vocabProgress">Question 0/0</span>
+        <span id="vocabScoreText">Score: 0</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; margin: 20px 0;">
+        <div id="vocabQuestion" style="font-size: 26px; font-weight: bold;"></div>
+        <button id="vocabSpeakerBtn" class="speaker-btn" onclick="speakCurrentVocab()" title="උච්චාරණය අසන්න">🔊</button>
+      </div>
+      <div id="vocabOptions"></div>
+      <div id="vocabResultMsg" class="resultMsg"></div>
+      <button style="background: #546e7a; margin-top: 15px;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <!-- Vocab End Result Area -->
+    <div id="vocabFinalResultArea" style="display:none;">
+      <h3>අවසාන ප්‍රතිඵලය</h3>
+      <div id="vocabFinalAnimation" class="animation-box">🎉</div>
+      <div id="vocabFinalResultText" style="font-size: 22px; font-weight: bold; margin: 15px 0;"></div>
+      <div id="vocabFinalMessage" style="font-size: 18px; color: #444; margin-bottom: 20px;"></div>
+      <button onclick="setupVocabLevel(selectedVocabLevel)">🔄 නැවත උත්සාහ කරන්න</button>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+  </div>
+
+  <!-- ================= 4. KANJI PRACTICE ================= -->
+  <div id="kanjiSection" class="section-area">
+    <div id="kanjiLevelMenu">
+      <h3>Kanji Level එක තෝරන්න</h3>
+      <button onclick="chooseKanjiLevel('N5')">N5 (103 Kanji)</button>
+      <button onclick="chooseKanjiLevel('N4')">N4 (181 Kanji)</button>
+      <button onclick="chooseKanjiLevel('N3')">N3 (363 Kanji)</button>
+      <br><br>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <!-- Kanji Part + Question Menu -->
+    <div id="kanjiPartMenu" style="display:none;">
+      <h3 id="kanjiLevelTitle"></h3>
+      <div style="text-align: left; margin-bottom: 10px; font-weight: bold;">
+        <input type="checkbox" id="selectAllKanji" onchange="toggleSelectAll(this)">
+        <label for="selectAllKanji">සියල්ල තෝරන්න (Select All)</label>
+      </div>
+      <div id="kanjiParts" class="part-grid"></div>
+
+      <h3>ප්‍රශ්න ගණන තෝරන්න</h3>
+      <select id="kanjiQuestionCount">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+        <option value="all">සියල්ල</option>
+      </select>
+      <br><br>
+      <button onclick="startKanjiQuiz()">🚀 Start Kanji Quiz</button>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <!-- Kanji Quiz Active Area -->
+    <div id="kanjiQuizArea" style="display:none;">
+      <div class="scoreBox">
+        <span id="questionProgress">Question 0/0</span>
+        <span id="scoreText">Score: 0</span>
+      </div>
+      <div id="kanjiBox">一</div>
+      <div id="kanjiOptions"></div>
+      <div id="resultMsg" class="resultMsg"></div>
+      <button style="background: #546e7a; margin-top: 15px;" onclick="goHome()">🏠 Home</button>
+    </div>
+
+    <!-- Kanji Final Result Area -->
+    <div id="kanjiFinalResultArea" style="display:none;">
+      <h3>අවසාන ප්‍රතිඵලය</h3>
+      <div id="kanjiFinalAnimation" class="animation-box">🎉</div>
+      <div id="kanjiFinalResultText" style="font-size: 22px; font-weight: bold; margin: 15px 0;"></div>
+      <div id="kanjiFinalMessage" style="font-size: 18px; color: #444; margin-bottom: 20px;"></div>
+      <button onclick="chooseKanjiLevel(selectedKanjiLevel)">🔄 නැවත උත්සාහ කරන්න</button>
+      <button style="background: #546e7a;" onclick="goHome()">🏠 Home</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // --- NAVIGATION ---
+  function showSection(sectionId) {
+    document.getElementById("homeMenu").style.display = "none";
+    document.querySelectorAll(".section-area").forEach(el => el.style.display = "none");
+    document.getElementById(sectionId).style.display = "block";
+
+    if(sectionId === 'charSection') {
+      document.getElementById("charMenu").style.display = "block";
+      document.getElementById("charQuizArea").style.display = "none";
+      document.getElementById("charFinalResultArea").style.display = "none";
+    }
+    if(sectionId === 'vocabSection') {
+      showVocabMain();
+    }
+    if(sectionId === 'kanjiSection') {
+      document.getElementById("kanjiLevelMenu").style.display = "block";
+      document.getElementById("kanjiPartMenu").style.display = "none";
+      document.getElementById("kanjiQuizArea").style.display = "none";
+      document.getElementById("kanjiFinalResultArea").style.display = "none";
+    }
+  }
+
+  function goHome() {
+    document.querySelectorAll(".section-area").forEach(el => el.style.display = "none");
+    document.getElementById("homeMenu").style.display = "block";
+  }
+
+  // --- AUDIO PRONUNCIATION FUNCTION (SPEECH SYNTHESIS) ---
+  function speakText(text) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("ඔබගේ Browser එක මඟින් Speech Audio සහාය නොදක්වයි.");
+    }
+  }
+
+  // --- HELPER FUNCTION FOR FINAL EVALUATION & ANIMATIONS ---
+  function renderFinalResult(score, total, animElemId, textElemId, msgElemId) {
+    const percent = Math.round((score / total) * 100);
+    const animElem = document.getElementById(animElemId);
+    const textElem = document.getElementById(textElemId);
+    const msgElem = document.getElementById(msgElemId);
+
+    textElem.innerHTML = `ඔබට ප්‍රශ්න ${total} කින් <strong>${score}</strong> ක් හරියි! (${percent}%)`;
+
+    if (percent >= 75) {
+      animElem.textContent = "🎆🎇🎆";
+      animElem.className = "animation-box fireworks";
+      msgElem.innerHTML = "🏆 සුපිරි! මල් වෙඩි පද්ධතිය ක්‍රියාත්මකයි! ඔබ විශිෂ්ට දක්ෂතාවයක් පෙන්නුම් කළා!";
+    } else if (percent >= 50) {
+      animElem.textContent = "⭐👍⭐";
+      animElem.className = "animation-box";
+      msgElem.innerHTML = "✨ Good! ඉතා හොඳයි! තවත් ටිකක් උත්සාහ කළොත් පූර්ණ ලකුණු ලබාගත හැක!";
+    } else {
+      animElem.textContent = "🙇‍♂️🇯🇵💪";
+      animElem.className = "animation-box";
+      msgElem.innerHTML = "🌸 頑張って (Ganbatte)! තව ටිකක් මහන්සි වෙලා පුහුණු වෙන්න! ඔබට මෙය ජයගත හැක!";
+    }
+  }
+
+  // --- 1. CHARACTER PRACTICE LOGIC ---
+  const hiraganaList = [
+    {char: "あ", sound: "a"}, {char: "い", sound: "i"}, {char: "う", sound: "u"}, {char: "え", sound: "e"}, {char: "お", sound: "o"},
+    {char: "か", sound: "ka"}, {char: "き", sound: "ki"}, {char: "く", sound: "ku"}, {char: "け", sound: "ke"}, {char: "こ", sound: "ko"},
+    {char: "さ", sound: "sa"}, {char: "し", sound: "shi"}, {char: "す", sound: "su"}, {char: "せ", sound: "se"}, {char: "そ", sound: "so"},
+    {char: "た", sound: "ta"}, {char: "ち", sound: "chi"}, {char: "つ", sound: "tsu"}, {char: "て", sound: "te"}, {char: "と", sound: "to"},
+    {char: "な", sound: "na"}, {char: "に", sound: "ni"}, {char: "ぬ", sound: "nu"}, {char: "ね", sound: "ne"}, {char: "の", sound: "no"},
+    {char: "は", sound: "ha"}, {char: "ひ", sound: "hi"}, {char: "ふ", sound: "fu"}, {char: "へ", sound: "he"}, {char: "ほ", sound: "ho"},
+    {char: "ま", sound: "ma"}, {char: "み", sound: "mi"}, {char: "む", sound: "mu"}, {char: "め", sound: "me"}, {char: "も", sound: "mo"},
+    {char: "や", sound: "ya"}, {char: "ゆ", sound: "yu"}, {char: "よ", sound: "yo"},
+    {char: "ら", sound: "ra"}, {char: "り", sound: "ri"}, {char: "る", sound: "ru"}, {char: "れ", sound: "re"}, {char: "ろ", sound: "ro"},
+    {char: "わ", sound: "wa"}, {char: "を", sound: "wo"}, {char: "ん", sound: "n"}
+  ];
+
+  const katakanaList = [
+    {char: "ア", sound: "a"}, {char: "イ", sound: "i"}, {char: "ウ", sound: "u"}, {char: "エ", sound: "e"}, {char: "オ", sound: "o"},
+    {char: "カ", sound: "ka"}, {char: "キ", sound: "ki"}, {char: "ク", sound: "ku"}, {char: "ケ", sound: "ke"}, {char: "コ", sound: "ko"},
+    {char: "サ", sound: "sa"}, {char: "シ", sound: "shi"}, {char: "ス", sound: "su"}, {char: "セ", sound: "se"}, {char: "ソ", sound: "so"},
+    {char: "タ", sound: "ta"}, {char: "チ", sound: "chi"}, {char: "ツ", sound: "tsu"}, {char: "テ", sound: "te"}, {char: "ト", sound: "to"},
+    {char: "ナ", sound: "na"}, {char: "ニ", sound: "ni"}, {char: "ヌ", sound: "nu"}, {char: "ネ", sound: "ne"}, {char: "ノ", sound: "no"},
+    {char: "ハ", sound: "ha"}, {char: "ヒ", sound: "hi"}, {char: "フ", sound: "fu"}, {char: "ヘ", sound: "he"}, {char: "ホ", sound: "ho"},
+    {char: "マ", sound: "ma"}, {char: "ミ", sound: "mi"}, {char: "ム", sound: "mu"}, {char: "メ", sound: "me"}, {char: "モ", sound: "mo"},
+    {char: "ヤ", sound: "ya"}, {char: "ユ", sound: "yu"}, {char: "ヨ", sound: "yo"},
+    {char: "ラ", sound: "ra"}, {char: "リ", sound: "ri"}, {char: "ル", sound: "ru"}, {char: "レ", sound: "re"}, {char: "ロ", sound: "ro"},
+    {char: "ワ", sound: "wa"}, {char: "ヲ", sound: "wo"}, {char: "ン", sound: "n"}
+  ];
+
+  let charPool = [];
+  let charIdx = 0;
+  let charScore = 0;
+  let charAnswered = false;
+
+  function startCharQuiz(type) {
+    let selectedList = [];
+    if (type === "hiragana") selectedList = [...hiraganaList];
+    else if (type === "katakana") selectedList = [...katakanaList];
+    else selectedList = [...hiraganaList, ...katakanaList];
+
+    charPool = selectedList.sort(() => Math.random() - 0.5);
+    charIdx = 0;
+    charScore = 0;
+
+    document.getElementById("charMenu").style.display = "none";
+    document.getElementById("charFinalResultArea").style.display = "none";
+    document.getElementById("charQuizArea").style.display = "block";
+    renderCharQuestion();
+  }
+
+  function renderCharQuestion() {
+    if (charIdx >= charPool.length) {
+      document.getElementById("charQuizArea").style.display = "none";
+      document.getElementById("charFinalResultArea").style.display = "block";
+      renderFinalResult(charScore, charPool.length, "charFinalAnimation", "charFinalResultText", "charFinalMessage");
+      return;
+    }
+    charAnswered = false;
+    document.getElementById("charResultMsg").textContent = "";
+
+    const cur = charPool[charIdx];
+    document.getElementById("charBox").textContent = cur.char;
+    document.getElementById("charProgress").textContent = `Question: ${charIdx + 1} / ${charPool.length}`;
+    document.getElementById("charScoreText").textContent = `Score: ${charScore}`;
+
+    const allSounds = Array.from(new Set([...hiraganaList, ...katakanaList].map(c => c.sound)));
+    let choices = [cur.sound];
+
+    while (choices.length < 4 && choices.length < allSounds.length) {
+      const rand = allSounds[Math.floor(Math.random() * allSounds.length)];
+      if (!choices.includes(rand)) choices.push(rand);
+    }
+    choices.sort(() => Math.random() - 0.5);
+
+    const optDiv = document.getElementById("charOptions");
+    optDiv.innerHTML = "";
+    choices.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "optionBtn";
+      btn.textContent = opt;
+      btn.onclick = () => checkCharAnswer(btn, opt, cur.sound);
+      optDiv.appendChild(btn);
+    });
+  }
+
+  function checkCharAnswer(btn, selected, correct) {
+    if (charAnswered) return;
+    charAnswered = true;
+    const allBtns = document.querySelectorAll('#charOptions .optionBtn');
+
+    if (selected === correct) {
+      charScore++;
+      btn.classList.add('correct');
+      document.getElementById("charResultMsg").textContent = "✅ නිවැරදියි!";
+      document.getElementById("charResultMsg").style.color = "var(--success-color)";
+    } else {
+      btn.classList.add('wrong');
+      document.getElementById("charResultMsg").textContent = `❌ වැරදියි! නිවැරදි උච්චාරණය: ${correct}`;
+      document.getElementById("charResultMsg").style.color = "var(--error-color)";
+      allBtns.forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+    }
+    document.getElementById("charScoreText").textContent = `Score: ${charScore}`;
+
+    setTimeout(() => {
+      charIdx++;
+      renderCharQuestion();
+    }, 1500);
+  }
+
+  // --- 2. VOCABULARY PRACTICE LOGIC ---
+  const vocabData = {
+    N5: [
+      // Verbs (Kriya)
+  {jp: "たべる", si: "කෑම කනවා", cat: "verbs"},
+  {jp: "のむ", si: "බොනවා", cat: "verbs"},
+  {jp: "いく", si: "යනවා", cat: "verbs"},
+  {jp: "くる", si: "එනවා", cat: "verbs"},
+  {jp: "かえる", si: "ආපසු යනවා / ගෙදර යනවා", cat: "verbs"},
+  {jp: "みる", si: "බලනවා", cat: "verbs"},
+  {jp: "きく", si: "අහනවා", cat: "verbs"},
+  {jp: "よむ", si: "කියවනවා", cat: "verbs"},
+  {jp: "かく", si: "ලියනවා", cat: "verbs"},
+  {jp: "かう", si: "මිලදී ගන්නවා", cat: "verbs"},
+  {jp: "おきる", si: "අවදි වෙනවා", cat: "verbs"},
+  {jp: "ねる", si: "නිදාගන්නවා", cat: "verbs"},
+  {jp: "べんきょうする", si: "පාඩම් කරනවා", cat: "verbs"},
+  {jp: "はなす", si: "කතා කරනවා", cat: "verbs"},
+  {jp: "あう", si: "හමුවෙනවා", cat: "verbs"},
+  {jp: "まつ", si: "බලන් ඉන්නවා", cat: "verbs"},
+  {jp: "あるく", si: "ඇවිදිනවා", cat: "verbs"},
+  {jp: "はしる", si: "දුවනවා", cat: "verbs"},
+  {jp: "およぐ", si: "පහිනවා", cat: "verbs"},
+  {jp: "あそぶ", si: "සෙල්ලම් කරනවා", cat: "verbs"},
+  {jp: "つくる", si: "හදනවා", cat: "verbs"},
+  {jp: "つかう", si: "පාවිච්චි කරනවා", cat: "verbs"},
+  {jp: "とる", si: "ගන්නවා / ඡායාරූප ගන්නවා", cat: "verbs"},
+  {jp: "わる", si: "කඩනවා", cat: "verbs"},
+
+  // Adjectives (Visheshana)
+  {jp: "おおきい", si: "ලොකු", cat: "adjectives"},
+  {jp: "ちいさい", si: "කුඩා", cat: "adjectives"},
+  {jp: "あたらしい", si: "අලුත්", cat: "adjectives"},
+  {jp: "ふるい", si: "පරණ", cat: "adjectives"},
+  {jp: "いい", si: "හොඳ", cat: "adjectives"},
+  {jp: "わるい", si: "නරක", cat: "adjectives"},
+  {jp: "たかい", si: "උස / ගණන් වැඩි", cat: "adjectives"},
+  {jp: "やすい", si: "ලාභ", cat: "adjectives"},
+  {jp: "ひくい", si: "මිටි", cat: "adjectives"},
+  {jp: "ながい", si: "දිග", cat: "adjectives"},
+  {jp: "みじかい", si: "කොට", cat: "adjectives"},
+  {jp: "あつい", si: "රස්නෙ / ගනකම", cat: "adjectives"},
+  {jp: "さむい", si: "සීතල (කාලගුණය)", cat: "adjectives"},
+  {jp: "つめたい", si: "සීතල (ස්පර්ශය/කෑම)", cat: "adjectives"},
+  {jp: "むずかしい", si: "අමාරු", cat: "adjectives"},
+  {jp: "やさしい", si: "ලේසි / කරුණාවන්ත", cat: "adjectives"},
+  {jp: "おいしい", si: "රසවත්", cat: "adjectives"},
+  {jp: "いそがしい", si: "කාර්යබහුල", cat: "adjectives"},
+  {jp: "た楽しい", si: "විනෝදජනක", cat: "adjectives"},
+  {jp: "すき", si: "කැමති", cat: "adjectives"},
+  {jp: "きらい", si: "අකමැති", cat: "adjectives"},
+  {jp: "しずか", si: "නිශ්ශබ්ද", cat: "adjectives"},
+  {jp: "にぎやか", si: "ජනාකීර්ණ", cat: "adjectives"},
+  {jp: "ひま", si: "ඉඩ තියෙන / විවේකී", cat: "adjectives"},
+
+  // Nouns (Nama padani - Objects, Places, Time, People)
+  {jp: "ねこ", si: "පූසා", cat: "nouns"},
+  {jp: "いぬ", si: "බල්ලා", cat: "nouns"},
+  {jp: "やま", si: "කන්ද", cat: "nouns"},
+  {jp: "川 (かわ)", si: "ගඟ", cat: "nouns"},
+  {jp: "みず", si: "වතුර", cat: "nouns"},
+  {jp: "おちゃ", si: "තේ", cat: "nouns"},
+  {jp: "ごはん", si: "බත් / කෑම", cat: "nouns"},
+  {jp: "パン", si: "පාන්", cat: "nouns"},
+  {jp: "さかな", si: "මාළු", cat: "nouns"},
+  {jp: "にく", si: "මස්", cat: "nouns"},
+  {jp: "たまご", si: "බිත්තර", cat: "nouns"},
+  {jp: "りんご", si: "ඇපල්", cat: "nouns"},
+  {jp: "ほん", si: "පොත", cat: "nouns"},
+  {jp: "ノート", si: "නෝට්බුක් එක", cat: "nouns"},
+  {jp: "えんぴつ", si: "පැන්සල", cat: "nouns"},
+  {jp: "ペン", si: "පෑන", cat: "nouns"},
+  {jp: "かばん", si: "බෑගය", cat: "nouns"},
+  {jp: "とけい", si: "ඔරලෝසුව", cat: "nouns"},
+  {jp: "傘 (かさ)", si: "කුඩය", cat: "nouns"},
+  {jp: "くつ", si: "සපත්තු", cat: "nouns"},
+  {jp: "ふく", si: "ඇඳුම්", cat: "nouns"},
+  {jp: "お金 (おかね)", si: "සල්ලි", cat: "nouns"},
+  {jp: "くるま", si: "වාහනය / කාර් එක", cat: "nouns"},
+  {jp: "でんしゃ", si: "කෝච්චිය", cat: "nouns"},
+  {jp: "バス", si: "බස් එක", cat: "nouns"},
+  {jp: "ひこうき", si: "අහස්යානය", cat: "nouns"},
+  {jp: "じてんしゃ", si: "බයිසිකලය", cat: "nouns"},
+  {jp: "うち / いえ", si: "ගෙදර", cat: "nouns"},
+  {jp: "がっこう", si: "පසැල", cat: "nouns"},
+  {jp: "だいがく", si: "විශ්වවිද්‍යාලය", cat: "nouns"},
+  {jp: "かいしゃ", si: "සමාගම / ඔෆිස් එක", cat: "nouns"},
+  {jp: "びょういん", si: "රෝහල", cat: "nouns"},
+  {jp: "ぎんこう", si: "බැංකුව", cat: "nouns"},
+  {jp: "ゆうびんきょく", si: "තපැල් කන්තෝරුව", cat: "nouns"},
+  {jp: "みせ", si: "කඩය", cat: "nouns"},
+  {jp: "へや", si: "කාමරය", cat: "nouns"},
+  {jp: "つくえ", si: "මේසය", cat: "nouns"},
+  {jp: "いす", si: "පුටුව", cat: "nouns"},
+  {jp: "きょう", si: "අද", cat: "nouns"},
+  {jp: "あした", si: "හෙට", cat: "nouns"},
+  {jp: "きのう", si: "ඊයේ", cat: "nouns"},
+  {jp: "いま", si: "දැන්", cat: "nouns"},
+  {jp: "朝 (あさ)", si: "උදෑසන", cat: "nouns"},
+  {jp: "昼 (ひる)", si: "දවල්", cat: "nouns"},
+  {jp: "夜 (よる)", si: "රෑ", cat: "nouns"},
+  {jp: "せんせい", si: "ගුරුවරයා", cat: "nouns"},
+  {jp: "がくせい", si: "ශිෂ්‍යයා", cat: "nouns"},
+  {jp: "ともだち", si: "යාළුවා", cat: "nouns"},
+  {jp: "ひと", si: "මිනිසා / කෙනා", cat: "nouns"},
+  {jp: "かぞく", si: "පවුල", cat: "nouns"},
+  {jp: "おとうさん", si: "තාත්තා", cat: "nouns"},
+  {jp: "おかあさん", si: "අම්මා", cat: "nouns"},
+  {jp: "日本 (にほん)", si: "ජපානය", cat: "nouns"},
+  {jp: "日本語 (にほんご)", si: "ජපන් භාෂාව", cat: "nouns"}
+    ],
+    N4: [
+      // Verbs (ක්‍රියාපද)
+  {jp: "あらう", si: "සෝදනවා", cat: "verbs"},
+  {jp: "うたう", si: "ගීත ගයනවා", cat: "verbs"},
+  {jp: "かむ", si: "හපනවා", cat: "verbs"},
+  {jp: "こたえる", si: "පිළිතුරු දෙනවා", cat: "verbs"},
+  {jp: "こまる", si: "අමාරුවක වැටෙනවා / කරදර වනවා", cat: "verbs"},
+  {jp: "しる", si: "දන්නවා (شناخت / දැනගන්නවා)", cat: "verbs"},
+  {jp: "す住む", si: "පදිංචිව සිටිනවා", cat: "verbs"},
+  {jp: "つたえる", si: "දන්වනවා / පණිවිඩයක් යවනවා", cat: "verbs"},
+  {jp: "てつだう", si: "උදව් කරනවා", cat: "verbs"},
+  {jp: "なおす", si: "ප්‍රතිසංස්කරණය කරනවා / හදනවා", cat: "verbs"},
+  {jp: "ぬ脱ぐ", si: "ඇඳුම් / සපත්තු ගලවනවා", cat: "verbs"},
+  {jp: "はじまる", si: "පටන් ගන්නවා", cat: "verbs"},
+  {jp: "おわる", si: "අවරට යනවා / ඉවර වෙනවා", cat: "verbs"},
+  {jp: "ひろう", si: "අහුලා ගන්නවා", cat: "verbs"},
+  {jp: "もっていく", si: "රැගෙන යනවා", cat: "verbs"},
+  {jp: "もってくる", si: "රැගෙන එනවා", cat: "verbs"},
+  {jp: "あげる", si: "ދෙනවා (අනුන්ට)", cat: "verbs"},
+  {jp: "くれる", si: "මොහුට දෙනවා", cat: "verbs"},
+  {jp: "もらう", si: "ලබා ගන්නවා", cat: "verbs"},
+
+  // Adjectives (විශේෂණ පද)
+  {jp: "あかるい", si: "දීප්තිමත් / එළිය", cat: "adjectives"},
+  {jp: "くらい", si: "අඳුරු", cat: "adjectives"},
+  {jp: "きたない", si: "කිලුටු / අපිරිසිදු", cat: "adjectives"},
+  {jp: "あたたかい", si: "උණුසුම් (කාලගුණය/ස්පර්ශය)", cat: "adjectives"},
+  {jp: "すずしい", si: "සිසිල්", cat: "adjectives"},
+  {jp: "たいせつ", si: "වැදගත් / අගනා", cat: "adjectives"},
+  {jp: "あんぜん", si: "ආරක්ෂිත", cat: "adjectives"},
+  {jp: "べんり", si: "පහසු / ප්‍රයෝජනවත්", cat: "adjectives"},
+  {jp: "ゆうめい", si: "ප්‍රසිද්ධ", cat: "adjectives"},
+  {jp: "じょうず", si: "දක්ෂයි", cat: "adjectives"},
+  {jp: "へた", si: "දක්ෂ නැහැ / අදක්ෂයි", cat: "adjectives"},
+  {jp: "しんぱい", si: "කනස්සල්ල / බිය", cat: "adjectives"},
+  {jp: "きゅう", si: "හදිසි", cat: "adjectives"},
+
+  // Nouns (නාමපද - ස්ථාන, සේවා, ද්‍රව්‍ය සහ හැඟීම්)
+  {jp: "やくしょ", si: "ප්‍රාදේශීය ලේකම් කාර්යාලය / ආණ්ඩු කාර්යාලය", cat: "nouns"},
+  {jp: "けいさつ", si: "පොලිසිය", cat: "nouns"},
+  {jp: "こうえん", si: "උද්‍යානය / පාක් එක", cat: "nouns"},
+  {jp: "えき", si: "දුම්රිය ස්ථානය", cat: "nouns"},
+  {jp: "くうこう", si: "ගුවන් තොටුපළ", cat: "nouns"},
+  {jp: "ホテル", si: "හෝටලය", cat: "nouns"},
+  {jp: "たてもの", si: "ගොඩනැඟිල්ල", cat: "nouns"},
+  {jp: "テスト", si: "විභාගය / පරීක්ෂණය", cat: "nouns"},
+  {jp: "しゅくだい", si: "ගෙදර වැඩ (Homework)", cat: "nouns"},
+  {jp: "しんぶん", si: "පුවත්පත", cat: "nouns"},
+  {jp: "てがみ", si: "ලිපිය", cat: "nouns"},
+  {jp: "きっぷ", si: "ටිකට් පත", cat: "nouns"},
+  {jp: "にもつ", si: "ሻමන් / බඩු බාහිරාදිය", cat: "nouns"},
+  {jp: "びょうき", si: "අසනීපය", cat: "nouns"},
+  {jp: "くすり", si: "බෙහෙਤ", cat: "nouns"},
+  {jp: "じこ", si: "අනතුර", cat: "nouns"},
+  {jp: "てんき", si: "කාලගුණය", cat: "nouns"},
+  {jp: "あめ", si: "වැස්ස", cat: "nouns"},
+  {jp: "ゆき", si: "හිම", cat: "nouns"},
+  {jp: "かぜ", si: "සුළඟ / සෙම්ප්‍රතිශ්‍යාව", cat: "nouns"},
+  {jp: "じかん", si: "වේලාව / කාලය", cat: "nouns"},
+  {jp: "よやく", si: "ကြိုတင် වෙන්කරවා ගැනීම (Reservation)", cat: "nouns"},
+  {jp: "けいかく", si: "תוכנית / සැලැස්ම", cat: "nouns"}
+    ],
+    N3: [
+     {jp: "いじる", si: "ඇඟිලි ගසනවා / ස්පර්ශ කරමින් සෙල්ලම් කරනවා", cat: "verbs"},
+  {jp: "かたづける", si: "පිළිවෙළකට සකස් කරනවා / අස්පස් කරනවා", cat: "verbs"},
+  {jp: "きえる", si: "මැකී යනවා / නිවී යනවා", cat: "verbs"},
+  {jp: "こむ", si: "நெரிසල් වනවා / සෙනඟ පිරෙනවා", cat: "verbs"},
+  {jp: "さがる", si: "පහළට යනවා / අඩුවෙනවා", cat: "verbs"},
+  {jp: "すぎる", si: "පසු කර යනවා / අධික වනවා", cat: "verbs"},
+  {jp: "たつ", si: "කාලය ගත වෙනවා / නැගී සිටිනවා", cat: "verbs"},
+  {jp: "だす", si: "එළියට දෙනවා / ඉදිරිපත් කරනවා", cat: "verbs"},
+  {jp: "つかまえる", si: "අල්ලා ගන්නවා", cat: "verbs"},
+  {jp: "つつむ", si: "꾸미නවා / ඔතනවා", cat: "verbs"},
+  {jp: "はらう", si: "මුදල් ගෙවනවා / අතුගා දමනවා", cat: "verbs"},
+  {jp: "ま合う", si: "ගැළපෙනවා / වෙලාවට හමුවෙනවා", cat: "verbs"},
+  {jp: "むかう", si: "දෙසට හැරෙනවා / ගමන් කරනවා", cat: "verbs"},
+  {jp: "りょうりする", si: "ඉන්දීය/විශේෂ කෑම සකස් කරනවා (சமை)", cat: "verbs"},
+
+  // Adjectives (විශේෂණ පද)
+  {jp: "きびしい", si: "တင်းකිරීමේ / දැඩි / සැර", cat: "adjectives"},
+  {jp: "こまかい", si: "ක්ෂුද්‍ර / ඉතා කුඩා / සියුම්", cat: "adjectives"},
+  {jp: "すごい", si: "පුදුමාකාර / අපූරු / අතිවිශිෂ්ට", cat: "adjectives"},
+  {jp: "めずらしい", si: "දුර්ලභ / අරුමපුදුම", cat: "adjectives"},
+  {jp: "うるさい", si: "කොන්දා / ශබ්ද අධික / කරදරකාරී", cat: "adjectives"},
+  {jp: "おとなしい", si: "සාන්ත / නිහඬ / කීකරු", cat: "adjectives"},
+  {jp: "たいへん", si: "අමාරු / බරපතල / අසීරු", cat: "adjectives"},
+  {jp: "ふくざつ", si: "සංකීර්ණ", cat: "adjectives"},
+  {jp: "まじめ", si: "වගකීම් සහගත / අවංක / උත්සාහවන්ත", cat: "adjectives"},
+  {jp: "りっぱ", si: "විශිෂ්ට / අගනා / නියම", cat: "adjectives"},
+
+  // Nouns (නාමපද - සමාජය, ව්‍යාපාර, හැඟීම් සහ වියුක්ත සංකල්ප)
+  {jp: "いけん", si: "අදහස / මතය", cat: "nouns"},
+  {jp: "いみ", si: "අර්ථය", cat: "nouns"},
+  {jp: "きかい", si: "අවස්ථාව / යන්ත්‍රය", cat: "nouns"},
+  {jp: "けいけん", si: "අත්දැකීම", cat: "nouns"},
+  {jp: "こうこく", si: "বিজ্ঞাপন / දැන්වීම", cat: "nouns"},
+  {jp: "さいしょ", si: "මුල / ආරම්භය", cat: "nouns"},
+  {jp: "しあい", si: "තරගය", cat: "nouns"},
+  {jp: "しごと", si: "රැකියාව / වැඩ", cat: "nouns"},
+  {jp: "しっぱい", si: "අසාර්ථක වීම / වරද", cat: "nouns"},
+  {jp: "じゅんび", si: "සූදානම් වීම", cat: "nouns"},
+  {jp: "しょうらい", si: "අනාගතය", cat: "nouns"},
+  {jp: "せいほう", si: "ක්‍රමය / ක්‍රමවේදය", cat: "nouns"},
+  {jp: "たいほう", si: "ප්‍රතිපත්තිය / සැලැස්ම", cat: "nouns"},
+  {jp: "ちゅうえい", si: "මධ්‍යස්ථ / අවධානය", cat: "nouns"},
+  {jp: "ていあん", si: "යෝජනාව", cat: "nouns"},
+  {jp: "てんきゅう", si: "වෙනස් වීම / සංක්‍රාන්තිය", cat: "nouns"},
+  {jp: "ひはん", si: "විවේචනය", cat: "nouns"},
+  {jp: "まわり", si: "වටපිටාව / වටේ", cat: "nouns"},
+  {jp: "りゆう", si: "හේතුව / කාරණය", cat: "nouns"}
+    ]
+  };
+
+  let selectedVocabLevel = "N5";
+  let vocabPool = [];
+  let vocabIdx = 0;
+  let vocabScore = 0;
+  let vocabAnswered = false;
+  let currentVocabDirection = "jp-si";
+  let currentJapaneseWord = "";
+
+  function showVocabMain() {
+    document.getElementById("vocabMenu").style.display = "block";
+    document.getElementById("vocabSubMenu").style.display = "none";
+    document.getElementById("vocabQuizArea").style.display = "none";
+    document.getElementById("vocabFinalResultArea").style.display = "none";
+  }
+
+  function setupVocabLevel(level) {
+    selectedVocabLevel = level;
+    document.getElementById("vocabMenu").style.display = "none";
+    document.getElementById("vocabSubMenu").style.display = "block";
+    document.getElementById("vocabFinalResultArea").style.display = "none";
+    document.getElementById("vocabLevelTitle").textContent = `${level} Vocabulary Selected`;
+  }
+
+  function startVocabQuiz(direction) {
+    currentVocabDirection = direction;
+    let list = vocabData[selectedVocabLevel] || [];
+
+    if (list.length < 4) {
+      alert("මෙම Level එක සඳහා ප්‍රමාණවත් වචන නොමැත! (අවම වශයෙන් 4ක් අවශ්‍යයි)");
+      return;
+    }
+
+    vocabPool = [...list].sort(() => Math.random() - 0.5);
+    vocabIdx = 0;
+    vocabScore = 0;
+
+    document.getElementById("vocabSubMenu").style.display = "none";
+    document.getElementById("vocabQuizArea").style.display = "block";
+    renderVocabQuestion();
+  }
+
+  function renderVocabQuestion() {
+    if (vocabIdx >= vocabPool.length) {
+      document.getElementById("vocabQuizArea").style.display = "none";
+      document.getElementById("vocabFinalResultArea").style.display = "block";
+      renderFinalResult(vocabScore, vocabPool.length, "vocabFinalAnimation", "vocabFinalResultText", "vocabFinalMessage");
+      return;
+    }
+    vocabAnswered = false;
+    document.getElementById("vocabResultMsg").textContent = "";
+
+    const cur = vocabPool[vocabIdx];
+    currentJapaneseWord = cur.jp;
+    const allItems = vocabData[selectedVocabLevel];
+
+    document.getElementById("vocabProgress").textContent = `Question: ${vocabIdx + 1} / ${vocabPool.length}`;
+    document.getElementById("vocabScoreText").textContent = `Score: ${vocabScore}`;
+
+    let questionText = "";
+    let correctAnswer = "";
+    let poolProperty = "";
+    const speakerBtn = document.getElementById("vocabSpeakerBtn");
+
+    if (currentVocabDirection === "jp-si") {
+      questionText = cur.jp;
+      correctAnswer = cur.si;
+      poolProperty = "si";
+      speakerBtn.style.display = "inline-block";
+    } else {
+      questionText = cur.si;
+      correctAnswer = cur.jp;
+      poolProperty = "jp";
+      speakerBtn.style.display = "none";
+    }
+
+    document.getElementById("vocabQuestion").textContent = "Translate: " + questionText;
+
+    const allValues = Array.from(new Set(allItems.map(i => i[poolProperty])));
+    let choices = [correctAnswer];
+
+    while (choices.length < 4 && choices.length < allValues.length) {
+      const rand = allValues[Math.floor(Math.random() * allValues.length)];
+      if (!choices.includes(rand)) choices.push(rand);
+    }
+    choices.sort(() => Math.random() - 0.5);
+
+    const optDiv = document.getElementById("vocabOptions");
+    optDiv.innerHTML = "";
+    choices.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "optionBtn";
+      btn.textContent = opt;
+      btn.onclick = () => checkVocabAnswer(btn, opt, correctAnswer);
+      optDiv.appendChild(btn);
+    });
+  }
+
+  function speakCurrentVocab() {
+    if (currentJapaneseWord) {
+      speakText(currentJapaneseWord);
+    }
+  }
+
+  function checkVocabAnswer(btn, selected, correct) {
+    if (vocabAnswered) return;
+    vocabAnswered = true;
+    const allBtns = document.querySelectorAll('#vocabOptions .optionBtn');
+
+    if (selected === correct) {
+      vocabScore++;
+      btn.classList.add('correct');
+      document.getElementById("vocabResultMsg").textContent = "✅ නිවැරදියි!";
+      document.getElementById("vocabResultMsg").style.color = "var(--success-color)";
+    } else {
+      btn.classList.add('wrong');
+      document.getElementById("vocabResultMsg").textContent = `❌ වැරදියි! නිවැරදි පිළිතුර: ${correct}`;
+      document.getElementById("vocabResultMsg").style.color = "var(--error-color)";
+      allBtns.forEach(b => { if (b.textContent === correct) b.classList.add('correct'); });
+    }
+    document.getElementById("vocabScoreText").textContent = `Score: ${vocabScore}`;
+
+    setTimeout(() => {
+      vocabIdx++;
+      renderVocabQuestion();
+    }, 1500);
+  }
+
+  // --- 3. KANJI PRACTICE LOGIC ---
+  const kanjiSets = {
+    N5: [
+      {kanji:"一", meaning:"එක"},
+  {kanji:"二", meaning:"දෙක"},
+  {kanji:"三", meaning:"තුන"},
+  {kanji:"四", meaning:"හතර"},
+  {kanji:"五", meaning:"පහ"},
+  {kanji:"六", meaning:"හය"},
+  {kanji:"七", meaning:"හත"},
+  {kanji:"八", meaning:"අට"},
+  {kanji:"九", meaning:"නවය"},
+  {kanji:"十", meaning:"දහය"},
+  {kanji:"百", meaning:"සියය"},
+  {kanji:"千", meaning:"දහස"},
+  {kanji:"万", meaning:"දශසහස"},
+  {kanji:"円", meaning:"යෙන් / මුදල්"},
+  {kanji:"上", meaning:"ඉහළ"},
+  {kanji:"下", meaning:"පහළ"},
+  {kanji:"中", meaning:"මැද / තුල"},
+  {kanji:"大", meaning:"ලොකු"},
+  {kanji:"小", meaning:"කුඩා"},
+  {kanji:"月", meaning:"සඳ / මාසය"},
+  {kanji:"日", meaning:"දවස / සූරිය"},
+  {kanji:"年", meaning:"අවුරුද්ද"},
+  {kanji:"時", meaning:"වේලාව"},
+  {kanji:"分", meaning:"මිනිත්තු / කොටස"},
+  {kanji:"今", meaning:"දැන්"},
+  {kanji:"何", meaning:"මොනවාද"},
+  {kanji:"先", meaning:"ඉදිරිය / පෙර"},
+  {kanji:"毎", meaning:"සෑම / හැම"},
+  {kanji:"午", meaning:"මධ්‍යහ්නය"},
+  {kanji:"前", meaning:"ඉදිරිය / පෙර"},
+  {kanji:"後", meaning:"පසු / පසෙක"},
+  {kanji:"間", meaning:"අතර / අතරමං"},
+  {kanji:"東", meaning:"නැගෙනහිර"},
+  {kanji:"西", meaning:"බටහිර"},
+  {kanji:"南", meaning:"දකුණ"},
+  {kanji:"北", meaning:"උතුර"},
+  {kanji:"口", meaning:"මූණ / තොට"},
+  {kanji:"目", meaning:"ඇස"},
+  {kanji:"耳", meaning:"කන"},
+  {kanji:"手", meaning:"අත"},
+  {kanji:"足", meaning:"පා"},
+  {kanji:"力", meaning:"බලය"},
+  {kanji:"男", meaning:"පුරුෂ"},
+  {kanji:"女", meaning:"ගැහැණු"},
+  {kanji:"子", meaning:"ළමය"},
+  {kanji:"父", meaning:"තාත්තා"},
+  {kanji:"母", meaning:"අම්මා"},
+  {kanji:"友", meaning:"යාලුවා"},
+  {kanji:"人", meaning:"මිනිසා"},
+  {kanji:"名", meaning:"නම"},
+  {kanji:"先生", meaning:"ගුරු"},
+  {kanji:"先週", meaning:"පසුගිය සතිය"},
+  {kanji:"来週", meaning:"ඉදිරි සතිය"},
+  {kanji:"学校", meaning:"පාසල"},
+  {kanji:"生", meaning:"ජීවිතය / සිසු"},
+  {kanji:"学", meaning:"ඉගෙනීම"},
+  {kanji:"校", meaning:"පාසල"},
+  {kanji:"入", meaning:"ඇතුල් වීම"},
+  {kanji:"出", meaning:"පිටවීම"},
+  {kanji:"行", meaning:"යනවා"},
+  {kanji:"来", meaning:"එනවා"},
+  {kanji:"帰", meaning:"ආපසු යනවා"},
+  {kanji:"見", meaning:"බලනවා"},
+  {kanji:"聞", meaning:"අහනවා"},
+  {kanji:"話", meaning:"කතා කරනවා"},
+  {kanji:"言", meaning:"කියනවා"},
+  {kanji:"読", meaning:"කියවනවා"},
+  {kanji:"書", meaning:"ලියනවා"},
+  {kanji:"食", meaning:"කනවා"},
+  {kanji:"飲", meaning:"බොනවා"},
+  {kanji:"買", meaning:"ගන්නවා"},
+  {kanji:"売", meaning:"විකිණනවා"},
+  {kanji:"休", meaning:"විවේකය"},
+  {kanji:"車", meaning:"රථය / කාරය"},
+  {kanji:"駅", meaning:"රෙල් ගේට්ටුව"},
+  {kanji:"道", meaning:"මාර්ගය"},
+  {kanji:"山", meaning:"කන්ද"},
+  {kanji:"川", meaning:"ගඟ"},
+  {kanji:"雨", meaning:"වැස්ස"},
+  {kanji:"天", meaning:"ඉහළ / දේව"},
+  {kanji:"空", meaning:"අහස / හිස්"},
+  {kanji:"火", meaning:"ගින්න"},
+  {kanji:"水", meaning:"වතුර"},
+  {kanji:"木", meaning:"ගස / ලී"},
+  {kanji:"金", meaning:"මුදල් / රිදී"},
+  {kanji:"土", meaning:"පස"},
+  {kanji:"花", meaning:"මල"},
+  {kanji:"草", meaning:"ඇල / ගස් කොළ"},
+  {kanji:"竹", meaning:"බඹර ගස්"},
+  {kanji:"糸", meaning:"නූල්"},
+  {kanji:"米", meaning:"අරහ"},
+  {kanji:"貝", meaning:"ගවියා"},
+  {kanji:"石", meaning:"ගල්"},
+  {kanji:"犬", meaning:"බල්ලා"},
+  {kanji:"魚", meaning:"මාළු"},
+  {kanji:"鳥", meaning:"කුරුල්ලා"},
+  {kanji:"馬", meaning:"අශ්වය"},
+  {kanji:"駅", meaning:"ස්ථානය"},
+  {kanji:"社", meaning:"සමාගම / ආයතනය"},
+  {kanji:"電", meaning:"විදුලිය"},
+  {kanji:"語", meaning:"භාෂාව"},
+  {kanji:"国", meaning:"රට"},
+  {kanji:"円", meaning:"යෙන්"},
+  {kanji:"白", meaning:"සුදු"},
+  {kanji:"赤", meaning:"රතු"},
+  {kanji:"青", meaning:"නිල්"},
+  {kanji:"黒", meaning:"කලු"},
+  {kanji:"上手", meaning:"හොඳින් කරනවා"},
+  {kanji:"下手", meaning:"අඩු / හොඳ නැති"},
+    ],
+    N4: [ {kanji:"不", meaning:"නැති / නො-"},
+  {kanji:"世", meaning:"ලෝකය"},
+  {kanji:"主", meaning:"ප්‍රධාන / අයිතිකරු"},
+  {kanji:"事", meaning:"කාරණය / දෙය"},
+  {kanji:"仕", meaning:"සේවය / සේවකයෙක්"},
+  {kanji:"代", meaning:"යුගය / වෙනුවට"},
+  {kanji:"住", meaning:"පදිංචි වීම"},
+  {kanji:"体", meaning:"ශරීරය"},
+  {kanji:"作", meaning:"කරනවා / නිර්මාණය"},
+  {kanji:"使", meaning:"භාවිතා කරනවා"},
+  {kanji:"便", meaning:"සුලභය / සේවාව"},
+  {kanji:"働", meaning:"වැඩ කරනවා"},
+  {kanji:"元", meaning:"මුල් / මූලික"},
+  {kanji:"兄", meaning:"අයියා"},
+  {kanji:"光", meaning:"ආලෝකය"},
+  {kanji:"写", meaning:"පිටපත් කරනවා"},
+  {kanji:"冬", meaning:"ශීතකාලය"},
+  {kanji:"切", meaning:"කපනවා"},
+  {kanji:"別", meaning:"වෙනස්"},
+  {kanji:"力", meaning:"බලය"},
+  {kanji:"動", meaning:"චලනය"},
+  {kanji:"医", meaning:"වෛද්‍ය"},
+  {kanji:"去", meaning:"ගිය / අතීතය"},
+  {kanji:"味", meaning:"රසය"},
+  {kanji:"命", meaning:"ජීවිතය"},
+  {kanji:"品", meaning:"භාණ්ඩ"},
+  {kanji:"員", meaning:"සාමාජිකයෙක්"},
+  {kanji:"問", meaning:"ප්‍රශ්නය"},
+  {kanji:"図", meaning:"ඉරියව් / සිතියම"},
+  {kanji:"地", meaning:"බිම / පසුබිම"},
+  {kanji:"堂", meaning:"මහලු ගොඩනැගිල්ල"},
+  {kanji:"場", meaning:"ස්ථානය"},
+  {kanji:"声", meaning:"හඬ"},
+  {kanji:"売", meaning:"විකුණනවා"},
+  {kanji:"夏", meaning:"ගිම්හාන"},
+  {kanji:"夕", meaning:"සඳු"},
+  {kanji:"夜", meaning:"රාත්‍රිය"},
+  {kanji:"太", meaning:"මහත් / තද"},
+  {kanji:"好", meaning:"කැමැත්ත / ප්‍රිය"},
+  {kanji:"妹", meaning:"නිවාසිය / ගිගිරි"},
+  {kanji:"姉", meaning:"අක්කා"},
+  {kanji:"始", meaning:"ආරම්භය"},
+  {kanji:"字", meaning:"අකුර"},
+  {kanji:"室", meaning:"කාමරය"},
+  {kanji:"家", meaning:"ගෙදර"},
+  {kanji:"寒", meaning:"සීතල"},
+  {kanji:"少", meaning:"අඩු / ටික"},
+  {kanji:"屋", meaning:"ගොඩනැගිල්ල / වෙළඳසැල"},
+  {kanji:"工", meaning:"අවිය / කාර්මික"},
+  {kanji:"市", meaning:"නගරය / වෙළඳපොළ"},
+  {kanji:"帰", meaning:"ආපසු යන්න"},
+  {kanji:"広", meaning:"විශාල / පළල"},
+  {kanji:"度", meaning:"අවස්ථාව / උෂ්ණත්වය"},
+  {kanji:"建", meaning:"ගොඩනගනවා"},
+  {kanji:"引", meaning:"ඇදීම"},
+  {kanji:"弟", meaning:"මල්ලි"},
+  {kanji:"弱", meaning:"දුර්වල"},
+  {kanji:"強", meaning:"ශක්තිමත්"},
+  {kanji:"待", meaning:"මග බලනවා"},
+  {kanji:"心", meaning:"හදවත / සිත"},
+  {kanji:"思", meaning:"සිතනවා"},
+  {kanji:"急", meaning:"හදිසි / ඉක්මන්"},
+  {kanji:"悪", meaning:"නරක"},
+  {kanji:"意", meaning:"අර්ථය / අදහස"},
+  {kanji:"所", meaning:"ස්ථානය"},
+  {kanji:"持", meaning:"රඳවා ගන්නවා"},
+  {kanji:"教", meaning:"ඉගැන්වීම"},
+  {kanji:"文", meaning:"වචනය / ලිපිය"},
+  {kanji:"旅", meaning:"ගමන"},
+  {kanji:"春", meaning:"වසන්තය"},
+  {kanji:"昼", meaning:"දවාලේ"},
+  {kanji:"暑", meaning:"උණුසුම්"},
+  {kanji:"暗", meaning:"අඳුරු"},
+  {kanji:"曜", meaning:"සති දිනය"},
+  {kanji:"有", meaning:"අතින් / තිබෙනවා"},
+  {kanji:"服", meaning:"ඇඳුම"},
+  {kanji:"朝", meaning:"උදේ"},
+  {kanji:"村", meaning:"ගම"},
+  {kanji:"林", meaning:"ගස් පොකුණ"},
+  {kanji:"森", meaning:"වනය"},
+  {kanji:"楽", meaning:"සන්තෝෂය / සංගීතය"},
+  {kanji:"歌", meaning:"ගීතය"},
+  {kanji:"止", meaning:"නවත්වනවා"},
+  {kanji:"正", meaning:"හරි / නිවැරදි"},
+  {kanji:"歩", meaning:"ඇවිදින්න"},
+  {kanji:"死", meaning:"මරණය"},
+  {kanji:"民", meaning:"ජනතාව"},
+  {kanji:"池", meaning:"වැව"},
+  {kanji:"注", meaning:"වතුර දැමීම / නෝට් කිරීම"},
+  {kanji:"洋", meaning:"බටහිර"},
+  {kanji:"海", meaning:"මුහුද"},
+  {kanji:"漢", meaning:"චීන / කන්ජි"},
+  {kanji:"牛", meaning:"ගොයියා"},
+  {kanji:"物", meaning:"වස්තුව"},
+  {kanji:"特", meaning:"විශේෂ"},
+  {kanji:"犬", meaning:"බල්ලා"},
+  {kanji:"理", meaning:"කාරණය / විද්‍යාව"},
+  {kanji:"用", meaning:"භාවිතය"},
+  {kanji:"田", meaning:"වගා බිම"},
+  {kanji:"町", meaning:"ගම / නගරය"},
+  {kanji:"画", meaning:"චිත්‍රය / රූපය"},
+  {kanji:"界", meaning:"ලෝකය"},
+  {kanji:"病", meaning:"අසනීපය"},
+  {kanji:"発", meaning:"ඇරඹීම / සංවර්ධනය"},
+  {kanji:"県", meaning:"පළාත"},
+  {kanji:"真", meaning:"සත්‍ය / නියම"},
+  {kanji:"知", meaning:"දැනුම"},
+  {kanji:"短", meaning:"කෙටි"},
+  {kanji:"研", meaning:"ඉගෙන ගන්නවා"},
+  {kanji:"究", meaning:"පර්යේෂණය"},
+  {kanji:"紙", meaning:"කඩදාසිය"},
+  {kanji:"終", meaning:"අවසානය"},
+  {kanji:"習", meaning:"අධ්‍යයනය"},
+  {kanji:"考", meaning:"සිතනවා"},
+  {kanji:"者", meaning:"පුද්ගලයෙක්"},
+  {kanji:"肉", meaning:"මාංශය"},
+  {kanji:"自", meaning:"ස්වයං"},
+  {kanji:"色", meaning:"වර්ණය"},
+  {kanji:"英", meaning:"ඉංග්‍රීසි / විශිෂ්ට"},
+  {kanji:"茶", meaning:"තේ"},
+  {kanji:"親", meaning:"මාපියන්"},
+  {kanji:"計", meaning:"ඇඳීම / සැලසුම"},
+  {kanji:"試", meaning:"පරීක්ෂාව"},
+  {kanji:"貸", meaning:"අරිනවා"},
+  {kanji:"質", meaning:"ගුණය / තත්ත්වය"},
+  {kanji:"赤", meaning:"රතු"},
+  {kanji:"走", meaning:"දුවනවා"},
+  {kanji:"起", meaning:"එළිදැක්වීම / ඇහැරීම"},
+  {kanji:"足", meaning:"පා"},
+  {kanji:"転", meaning:"තුරුළු වෙන්න / හැරවීම"},
+  {kanji:"軽", meaning:"හැදි"},
+  {kanji:"近", meaning:"ආසන්න"},
+  {kanji:"送", meaning:"යැවීම"},
+  {kanji:"通", meaning:"ඇවිදින්න / ගමන්"},
+  {kanji:"進", meaning:"ඉදිරියට යන්න"},
+  {kanji:"運", meaning:"ඇනවුම / ගෙන යනවා"},
+  {kanji:"遠", meaning:"දුර"},
+  {kanji:"都", meaning:"රාජධානිය"},
+  {kanji:"重", meaning:"බර"},
+  {kanji:"野", meaning:"පිටිය / වල්"},
+  {kanji:"銀", meaning:"රිදී"},
+  {kanji:"開", meaning:"ඔපනවා"},
+  {kanji:"院", meaning:"ආයතනය / රෝහල"},
+  {kanji:"集", meaning:"එකතු කරනවා"},
+  {kanji:"青", meaning:"නිල්"},
+  {kanji:"音", meaning:"ශබ්දය"},
+  {kanji:"頭", meaning:"හිස"},
+  {kanji:"顔", meaning:"මුහුණ"},
+  {kanji:"題", meaning:"විෂය / ප්‍රශ්නය"},
+  {kanji:"風", meaning:"සුළඟ"},
+  {kanji:"飯", meaning:"ඇත් බත"},
+  {kanji:"館", meaning:"ගොඩනැගිල්ල / මාලිගාව"},
+  {kanji:"首", meaning:"ගෙඩි / ගිලිය"},
+  {kanji:"黄", meaning:"කහ"},
+  {kanji:"黒", meaning:"කලු"},
+  {kanji:"鳥", meaning:"කුරුල්ලා"},
+  {kanji:"魚", meaning:"මාළු"},
+],
+    N3: [{kanji:"両", meaning:"අත් දෙක / දෙපැත්ත"},
+  {kanji:"丸", meaning:"වට"},
+  {kanji:"交", meaning:"මාරු කරනවා"},
+  {kanji:"京", meaning:"රාජධානි (කියෝටෝ / ටෝකියෝ)"},
+  {kanji:"仕", meaning:"කාර්යය / සේවය"},
+  {kanji:"他", meaning:"වෙනෙක් / වෙනත්"},
+  {kanji:"付", meaning:"ඇමතුම් / සම්බන්ධ"},
+  {kanji:"令", meaning:"නියෝගය / නීතිය"},
+  {kanji:"以", meaning:"අනුව / මත"},
+  {kanji:"低", meaning:"අඩු"},
+  {kanji:"住", meaning:"පදිංචිය"},
+  {kanji:"仲", meaning:"ආශ්‍රය / සම්බන්ධය"},
+  {kanji:"伝", meaning:"සංවෘතය / ගෙනයාම"},
+  {kanji:"位", meaning:"ස්ථානය / තත්ත්වය"},
+  {kanji:"例", meaning:"උදාහරණය"},
+  {kanji:"係", meaning:"අධිකාරිය / සම්බන්ධය"},
+  {kanji:"信", meaning:"විශ්වාසය / විශ්වාස කරනවා"},
+  {kanji:"倉", meaning:"ගබඩාව"},
+  {kanji:"候", meaning:"කාලගුණය / සූචකය"},
+  {kanji:"借", meaning:"අරිනවා"},
+  {kanji:"停", meaning:"නවත්වනවා"},
+  {kanji:"健", meaning:"ආරෝග්‍යය"},
+  {kanji:"側", meaning:"පැත්ත"},
+  {kanji:"働", meaning:"වැඩ කරනවා"},
+  {kanji:"億", meaning:"සෙර (100,000,000)"},
+  {kanji:"兆", meaning:"ලක්ෂණය / තිලිණය"},
+  {kanji:"児", meaning:"ළමය"},
+  {kanji:"共", meaning:"එකතු / එකට"},
+  {kanji:"兵", meaning:"සෙබළු / යුද්ධය"},
+  {kanji:"典", meaning:"මූලය / පොත"},
+  {kanji:"冷", meaning:"සීතල"},
+  {kanji:"初", meaning:"මුල් / පළමු"},
+  {kanji:"別", meaning:"වෙනස් / වෙනම"},
+  {kanji:"利", meaning:"ලාභය / සුළු"},
+  {kanji:"刷", meaning:"මුද්‍රණය"},
+  {kanji:"副", meaning:"උප / ද්විතීය"},
+  {kanji:"功", meaning:"විජයය / සාර්ථකත්වය"},
+  {kanji:"加", meaning:"එක් කරනවා"},
+  {kanji:"努", meaning:"උත්සාහය"},
+  {kanji:"労", meaning:"කම්කරුවන් / ප শ্রমය"},
+  {kanji:"効", meaning:"ප්‍රයෝජනය / බලපෑම"},
+  {kanji:"勇", meaning:"ධෛර්යය"},
+  {kanji:"包", meaning:"පැකේජය / සමුදය"},
+  {kanji:"卒", meaning:"උපාධිය / ග්‍රාජු"},
+  {kanji:"協", meaning:"සහයෝගය"},
+  {kanji:"単", meaning:"තනි / සරල"},
+  {kanji:"博", meaning:"විශාල / විද්‍යාගාර"},
+  {kanji:"印", meaning:"මුද්‍රාව"},
+  {kanji:"参", meaning:"සම්බන්ධ වෙන්න / පංති"},
+  {kanji:"史", meaning:"ඉතිහාසය"},
+  {kanji:"各", meaning:"එකෝ එක්"},
+  {kanji:"告", meaning:"දැනුම් දීම"},
+  {kanji:"周", meaning:"අසල / වටා"},
+  {kanji:"命", meaning:"ජීවිතය / නියෝගය"},
+  {kanji:"和", meaning:"ජපන් / සමාධානය"},
+  {kanji:"固", meaning:"ඇඳුම / තද"},
+  {kanji:"国", meaning:"රට"},
+  {kanji:"園", meaning:"ඔට්ටු / උද්‍යානය"},
+  {kanji:"堂", meaning:"ගොඩනැගිල්ල / ශාලාව"},
+  {kanji:"圧", meaning:"පීඩනය"},
+  {kanji:"在", meaning:"තිබෙනවා / පවතිනවා"},
+  {kanji:"均", meaning:"සම / සමාන"},
+  {kanji:"基", meaning:"මූලය / පදනම"},
+  {kanji:"報", meaning:"වාර්තාව"},
+  {kanji:"境", meaning:"සීමාව / සන්ධිය"},
+  {kanji:"墓", meaning:"සොහොන"},
+  {kanji:"増", meaning:"වැඩි කරනවා"},
+  {kanji:"変", meaning:"වෙනස් කරනවා"},
+  {kanji:"夢", meaning:"කල්පනා / සිහිනය"},
+  {kanji:"妻", meaning:"බිරිඳ"},
+  {kanji:"婦", meaning:"ගෘහණිය"},
+  {kanji:"容", meaning:"දේහය / හැඩය"},
+  {kanji:"宿", meaning:"ඇතැම් / නවාතැන්"},
+  {kanji:"寄", meaning:"ආසන්නව යන්න / දානය"},
+  {kanji:"富", meaning:"ඇශාඛ්‍ය / සම්පත්"},
+  {kanji:"寒", meaning:"සිසිල්"},
+  {kanji:"察", meaning:"පරීක්ෂාව"},
+  {kanji:"対", meaning:"විරුද්ධ / සම්බන්ධ"},
+  {kanji:"局", meaning:"කාර්යාලය"},
+  {kanji:"居", meaning:"පදිංචි"},
+  {kanji:"島", meaning:"දූපත"},
+  {kanji:"帳", meaning:"පොත / ලේඛනය"},
+  {kanji:"平", meaning:"සම"},
+  {kanji:"幸", meaning:"සාන්තුව / සතුට"},
+  {kanji:"度", meaning:"අවස්ථාව"},
+  {kanji:"庫", meaning:"ගබඩාව"},
+  {kanji:"庭", meaning:"ඔය / වත්ත"},
+  {kanji:"式", meaning:"ආකෘතිය / උත්සවය"},
+  {kanji:"引", meaning:"ඇදීම / අඩු කිරීම"},
+  {kanji:"当", meaning:"අදාළ / ගැලපෙන"},
+  {kanji:"形", meaning:"හැඩය"},
+  {kanji:"役", meaning:"කාර්යය / භූමිකාව"},
+  {kanji:"彼", meaning:"ඔහු / යාලුවා"},
+  {kanji:"往", meaning:"යාම / ගමන්"},
+  {kanji:"得", meaning:"ලැබීම / ලබා ගන්නවා"},
+  {kanji:"必", meaning:"නිශ්චිත / අනිවාර්ය"},
+  {kanji:"忘", meaning:"අමතක කරනවා"},
+  {kanji:"念", meaning:"කල්පනා / සිත"},
+  {kanji:"愛", meaning:"ආදරය"},
+  {kanji:"感", meaning:"අනූභවය / හැඟීම"},
+  {kanji:"態", meaning:"අවස්ථාව / තත්ත්වය"},
+  {kanji:"慣", meaning:"අවුරුදු වෙලා / පුරුදු"},
+  {kanji:"成", meaning:"වීම / සාර්ථකවීම"},
+  {kanji:"戦", meaning:"සටන"},
+  {kanji:"戸", meaning:"වෑල්ලි / දොර"},
+  {kanji:"所", meaning:"ස්ථානය"},
+  {kanji:"払", meaning:"ගෙවීම / පිටවීම"},
+  {kanji:"投", meaning:"ගැසීම / 投げる"},
+  {kanji:"折", meaning:"කඩනවා / වාදනවා"},
+  {kanji:"技", meaning:"කෞශලය"},
+  {kanji:"招", meaning:"ඇරයුම / පිළිගැනීම"},
+  {kanji:"打", meaning:"මැරීම / වාදනවා"},
+  {kanji:"拾", meaning:"ගන්නවා / රැස් කරනවා"},
+  {kanji:"指", meaning:"ඇඟිල්ල / යොමු කරනවා"},
+  {kanji:"放", meaning:"ඉවත් කරනවා / නිදහස්"},
+  {kanji:"敗", meaning:"පරාජය"},
+  {kanji:"散", meaning:"චිත්‍රය / බෙදනවා"},
+  {kanji:"数", meaning:"ගණන"},
+  {kanji:"整", meaning:"රැස් කරනවා / සකස් කරනවා"},
+  {kanji:"旅", meaning:"ගමන"},
+  {kanji:"族", meaning:"කුලය / පවුල"},
+  {kanji:"昔", meaning:"පැරණි / කලින්"},
+  {kanji:"昭", meaning:"ශෝවා යුගය"},
+  {kanji:"暑", meaning:"උණුසුම්"},
+  {kanji:"暗", meaning:"අඳුරු"},
+  {kanji:"曲", meaning:"ගීතය /曲がる- වංගුව"},
+  {kanji:"有", meaning:"ඇති"},
+  {kanji:"服", meaning:"ඇඳුම"},
+  {kanji:"期", meaning:"කාලය / පරිච්ඡේදය"},
+  {kanji:"板", meaning:"පැනලය / තහඩු"},
+  {kanji:"柱", meaning:"තීරුව"},
+  {kanji:"根", meaning:"මූලය / අරු"},
+  {kanji:"植", meaning:"වපුරනවා / තබනවා"},
+  {kanji:"業", meaning:"ව්‍යාපාරය / කාර්යය"},
+  {kanji:"様", meaning:"මනෝභාවය /様式 - ආකාරය"},
+  {kanji:"横", meaning:"අඩ්දෙන් / පළල"},
+  {kanji:"橋", meaning:"පොල්වතු"},
+  {kanji:"次", meaning:"ඊළඟ"},
+  {kanji:"歯", meaning:"දත්"},
+  {kanji:"死", meaning:"මරණය"},
+  {kanji:"殺", meaning:"මැරීම"},
+  {kanji:"毒", meaning:"විෂය"},
+  {kanji:"比", meaning:"සංසන්දනය"},
+  {kanji:"毛", meaning:"රොම / හිසකෙස්"},
+  {kanji:"氷", meaning:"අයිස් / හිම"},
+  {kanji:"油", meaning:"තෙල්"},
+  {kanji:"波", meaning:"තරංගය"},
+  {kanji:"注", meaning:"注ぐ - දමනවා / 注文 - ඇණවුම"},
+  {kanji:"洋", meaning:"බටහිර / සමුද්‍රය"},
+  {kanji:"流", meaning:"ගලා යනවා"},
+  {kanji:"消", meaning:"නැති කරනවා / 消す"},
+  {kanji:"深", meaning:"ගැඹුරු"},
+  {kanji:"温", meaning:"උණුසුම / 温度"},
+  {kanji:"港", meaning:"වරාය"},
+  {kanji:"湖", meaning:"කෙරළ / වැව"},
+  {kanji:"湯", meaning:"ගرم වතුර"},
+  {kanji:"漢", meaning:"චීන / කන්ජි"},
+  {kanji:"炭", meaning:"ගගරොල් / කලුමල"},
+  {kanji:"無", meaning:"නොමැති / හිස්"},
+  {kanji:"然", meaning:"එහෙම / ස්වභාවය"},
+  {kanji:"焼", meaning:"ගිනිගන්නවා / 烧く"},
+  {kanji:"照", meaning:"ඇලවීම / ආලෝකය"},
+  {kanji:"熱", meaning:"උණුසුම / උණ"},
+  {kanji:"牧", meaning:"ගොවිතැන / කන්නය"},
+  {kanji:"特", meaning:"විශේෂ"},
+  {kanji:"産", meaning:"නිෂ්පාදනය / උපත"},
+  {kanji:"由", meaning:"ඉතිහාසය / හේතුව"},
+  {kanji:"申", meaning:"දැනුම් දෙනවා"},
+  {kanji:"界", meaning:"ලෝකය / සීමාව"},
+  {kanji:"畑", meaning:"වගා බිම"},
+  {kanji:"病", meaning:"අසනීප"},
+  {kanji:"登", meaning:"ඉහළ යනවා / 登る"},
+  {kanji:"皮", meaning:"තොගය / කටාපත්"},
+  {kanji:"皮", meaning:"තොගය / කටාපත්"},
+  {kanji:"皿", meaning:"තැටිය / පිඟන්"},
+  {kanji:"直", meaning:"නියම / සෘජු"},
+  {kanji:"相", meaning:"අරමුණ / සම්බන්ධය"},
+  {kanji:"省", meaning:"省く - අඩු කරනවා / අමාත්‍යාංශය"},
+  {kanji:"看", meaning:"නරඹනවා / රැකබලා ගන්නවා"},
+  {kanji:"真", meaning:"සත්‍ය / නියම"},
+  {kanji:"研", meaning:"ගවේෂණය /研ぐ - සකසනවා"},
+  {kanji:"究", meaning:"ගවේෂණය"},
+  {kanji:"票", meaning:"ඡන්ද පත්‍රය / ටිකට්"},
+  {kanji:"祭", meaning:"උත්සවය"},
+  {kanji:"福", meaning:"සුභාශිංසන / සතුට"},
+  {kanji:"科", meaning:"විෂය / විද්‍යාව"},
+  {kanji:"秒", meaning:"තත්පරය"},
+  {kanji:"究", meaning:"පර්යේෂණය"},
+  {kanji:"章", meaning:"අධ්‍යාය / පද්‍යය"},
+  {kanji:"童", meaning:"ළමයා / දරුවා"},
+  {kanji:"第", meaning:"අංකය / පදනම"},
+  {kanji:"笛", meaning:"පිඹුරුවාදනය"},
+  {kanji:"等", meaning:"එවන් / වැනි"},
+  {kanji:"箱", meaning:"ඇසුරුම / පෙට්ටිය"},
+  {kanji:"類", meaning:"වර්ගය / කාණ්ඩය"},
+  {kanji:"粉", meaning:"පිටි"},
+  {kanji:"紀", meaning:"කාලය / සමාජය"},
+  {kanji:"約", meaning:"ගිවිසුම / 約束 - පොරොන්දුව"},
+  {kanji:"結", meaning:"ගැලපෙනවා /結ぶ - බැඳීම"},
+  {kanji:"給", meaning:"පිරිවැය / දීම"},
+  {kanji:"続", meaning:"දිගටම යන්න / つづく"},
+  {kanji:"絵", meaning:"චිත්‍රය"},
+  {kanji:"緑", meaning:"කොළ"},
+  {kanji:"線", meaning:"රේඛාව"},
+  {kanji:"練", meaning:"අභ්‍යාසය"},
+  {kanji:"羊", meaning:"මියා / ගොනුව"},
+  {kanji:"美", meaning:"ලස්සන"},
+  {kanji:"習", meaning:"ඉගෙන ගන්නවා"},
+  {kanji:"者", meaning:"පුද්ගලයෙක්"},
+  {kanji:"育", meaning:"උපාසක / පෝෂණය"},
+  {kanji:"苦", meaning:"වෙදනා / දුක්"},
+  {kanji:"荷", meaning:"ගොනු / භාරය"},
+  {kanji:"落", meaning:"පහළට වැටෙනවා"},
+  {kanji:"葉", meaning:"කොළ / පත්‍රය"},
+  {kanji:"薬", meaning:"ඖෂධය"},
+  {kanji:"血", meaning:"ලේ"},
+  {kanji:"表", meaning:"මුහුණ / 表す - දැක්වීම"},
+  {kanji:"詩", meaning:"කවිය"},
+  {kanji:"調", meaning:"調べる - පරීක්ෂාව / සංගීත සුර"},
+  {kanji:"談", meaning:"සාකච්ඡාව"},
+  {kanji:"議", meaning:"විවාදය / පාර්ලිමේන්තුව"},
+  {kanji:"象", meaning:"අලි / සංකේතය"},
+  {kanji:"貨", meaning:"මුදල් / සල්ලි"},
+  {kanji:"貯", meaning:"ඉතිරි කරනවා / ආරක්ෂාව"},
+  {kanji:"費", meaning:"වියදම"},
+  {kanji:"賞", meaning:"සම්මානය"},
+  {kanji:"資", meaning:"අරමුදල් / සම්පත්"},
+  {kanji:"賛", meaning:"එකඟවීම / අනුමැතිය"},
+  {kanji:"質", meaning:"ගුණාත්මක"},
+  {kanji:"輸", meaning:"අපනයනය / ගෙන යනවා"},
+  {kanji:"辺", meaning:"අසල / සීමාව"},
+  {kanji:"達", meaning:"පහළ යනවා / 達する - ළඟා වීම"},
+  {kanji:"選", meaning:"තෝරාගැනීම"},
+  {kanji:"郡", meaning:"ග්‍රාමය / ප්‍රාදේශීය"},
+  {kanji:"部", meaning:"කණ්ඩායම / අංශය"},
+  {kanji:"都", meaning:"රාජධානිය"},
+  {kanji:"配", meaning:"බෙදනවා"},
+  {kanji:"酒", meaning:"මදිරාව"},
+  {kanji:"録", meaning:"ලිපිගත කිරීම"},
+  {kanji:"鉄", meaning:"ඉසුරු"},
+  {kanji:"鏡", meaning:"කඳුළු / කැඳුළු"},
+  {kanji:"陽", meaning:"ඇඳුම / සූර්යයා"},
+  {kanji:"際", meaning:"අවස්ථාව / සන්ධිය"},
+  {kanji:"雑", meaning:"විවිධ / අමුත්ත"},
+  {kanji:"雲", meaning:"අමුතු / වලාකුළු"},
+  {kanji:"順", meaning:"අනුපිළිවෙල / අනුගමනය"},
+  {kanji:"願", meaning:"ඇල්ලීම / ඉල්ලීම"},
+  {kanji:"類", meaning:"වර්ගය / සමූහය"},
+  {kanji:"飛", meaning:"පියාසර කරනවා"},
+  {kanji:"飯", meaning:"ඇත් බත"},
+  {kanji:"養", meaning:"පෝෂණය / අධීන කිරීම"},
+  {kanji:"験", meaning:"පරීක්ෂාව / අත්දැකීම"},
+  {kanji:"警", meaning:"පොලීසිය / සටහන"},
+  {kanji:"議", meaning:"කථිකාව / සභාව"},
+  {kanji:"類", meaning:"ප්‍රභේදය"},
+  {kanji:"競", meaning:"පොරොන්දුව / තරඟය"},
+  {kanji:"養", meaning:"පෝෂණය / රැකබලාගැනීම"},
+  {kanji:"難", meaning:"අමාරු / දුෂ්කර"},
+  {kanji:"静", meaning:"නිවන් / සන්සුන්"},
+  {kanji:"願", meaning:"කැමැත්ත / ප්‍රාර්ථනය"},
+  {kanji:"類", meaning:"වර්ගය / සමූහය"},
+  {kanji:"飛", meaning:"පියාසර කරනවා"},
+  {kanji:"飯", meaning:"ඇත් බත් / කෑම"},
+  {kanji:"養", meaning:"රැකගන්නවා / පෝෂණය"},
+  {kanji:"験", meaning:"පරීක්ෂාව / අත්දැකීම"},
+  {kanji:"警", meaning:"අවවාදය / පොලිස්"},
+  {kanji:"議", meaning:"කතාබහ / සභාව"},
+  {kanji:"際", meaning:"අවස්ථාව / සන්ධිය"},
+  {kanji:"雑", meaning:"විවිධ / මිශ්‍ර"},
+  {kanji:"非", meaning:"නො– / විරුද්ධ"},
+  {kanji:"悲", meaning:"දුක / විලාපය"},
+  {kanji:"想", meaning:"ඇඳුම් / සිතුවිලි"},
+  {kanji:"感", meaning:"හදවතේ හැඟීම"},
+  {kanji:"態", meaning:"අවස්ථාව / හැසිරීම"},
+  {kanji:"慣", meaning:"පුරුදු"},
+  {kanji:"技", meaning:"කෞශල්‍ය / තාක්ෂණය"},
+  {kanji:"技", meaning:"විශේෂ කුසලතාව"},
+  {kanji:"術", meaning:"කලා / විද්‍යාව / ක්‍රමය"},
+  {kanji:"演", meaning:"නිෂ්පාදනය / ඉදිරිපත් කිරීම"},
+  {kanji:"能", meaning:"ක්‍රියාකාරිත්වය / හැකියාව"},
+  {kanji:"役", meaning:"භූමිකාව / සේවය"},
+  {kanji:"務", meaning:"කාර්යය / යුතුකම"},
+  {kanji:"功", meaning:"සාර්ථකත්වය"},
+  {kanji:"労", meaning:"වැඩ / කම්කරුවන්"},
+  {kanji:"加", meaning:"එකතු කරනවා"},
+  {kanji:"協", meaning:"සහයෝගය"},
+  {kanji:"参", meaning:"එක්වීම / පැමිණීම"},
+  {kanji:"反", meaning:"එරෙහි / විරුද්ධ"},
+  {kanji:"取", meaning:"ගන්නවා"},
+  {kanji:"受", meaning:"ලැබීම / පිළිගැනීම"},
+  {kanji:"告", meaning:"දැනුම් දීම"},
+  {kanji:"周", meaning:"වටා / සම්පූර්ණ"},
+  {kanji:"命", meaning:"ජීවිතය / නියෝගය"},
+  {kanji:"和", meaning:"සමගිය / ජපන්"},
+  {kanji:"固", meaning:"තද / ස්ථිර"},
+  {kanji:"在", meaning:"පවතිනවා / තිබෙනවා"},
+  {kanji:"報", meaning:"වාර්තාව"},
+  {kanji:"境", meaning:"සීමාව / සන්ධිය"},
+  {kanji:"増", meaning:"වැඩි කරනවා"},
+  {kanji:"変", meaning:"වෙනස් කරනවා"},
+  {kanji:"夢", meaning:"සපන / සිහින"},
+  {kanji:"妻", meaning:"බිරිඳ"},
+  {kanji:"婦", meaning:"ගෘහණිය"},
+  {kanji:"容", meaning:"ඇතුළත් / හැඩය"},
+  {kanji:"寄", meaning:"ඇමතුම / පරිත්‍යාගය"},
+  {kanji:"寒", meaning:"සිසිල් / සීතල"},
+  {kanji:"察", meaning:"පරීක්ෂාව / ගවේෂණය"},
+  {kanji:"対", meaning:"විරුද්ධ / සම්බන්ධ"},
+  {kanji:"局", meaning:"කාර්යාලය"},
+  {kanji:"居", meaning:"පදිංචි"},
+  {kanji:"島", meaning:"දූපත"},
+  {kanji:"帳", meaning:"පොත / ලේඛනය"},
+  {kanji:"平", meaning:"සම / සාමය"},
+  {kanji:"幸", meaning:"ඉමහත් සතුට"},
+  {kanji:"度", meaning:"අවස්ථාව / වාරය"},
+  {kanji:"庫", meaning:"ගබඩාව"},
+  {kanji:"庭", meaning:"වත්ත / අඟුළු වත්ත"},
+  {kanji:"式", meaning:"ආකාරය / උත්සවය"},
+  {kanji:"役", meaning:"කාර්යය / භූමිකාව"},
+  {kanji:"彼", meaning:"ඔහු / යාලුවා"},
+  {kanji:"往", meaning:"ගමන් / යාම"},
+  {kanji:"必", meaning:"අනිවාර්ය / නිශ්චිත"},
+  {kanji:"忘", meaning:"අමතක කරනවා"},
+  {kanji:"念", meaning:"සිත්තම / කල්පනා"},
+  {kanji:"愛", meaning:"ආදරය"},
+  {kanji:"感", meaning:"හැඟීම / හැඟුම"},
+  {kanji:"態", meaning:"තත්ත්වය / හැසිරීම"},
+  {kanji:"慣", meaning:"පුරුදු වීම"},
+  {kanji:"戦", meaning:"සටන / ගැටුම"},
+  {kanji:"折", meaning:"වංගුව / කඩනවා"},
+  {kanji:"投", meaning:"ගැසීම"},
+  {kanji:"拾", meaning:"ගන්නවා / රැස් කරනවා"},
+  {kanji:"指", meaning:"ඇඟිල්ල / යොමු කරනවා"},
+  {kanji:"放", meaning:"නිදහස් කරනවා"},
+  {kanji:"敗", meaning:"පරාජය"},
+  {kanji:"散", meaning:"බෙදා හැරීම / විකිරණය"},
+  {kanji:"求", meaning:"ඇල්ලීම / ඉල්ලීම"},
+  {kanji:"治", meaning:"ඇරීම / සුව කරනවා"},
+  {kanji:"法", meaning:"නීතිය"},
+  {kanji:"済", meaning:"නිම කරනවා / සම්පූර්ණ"},
+  {kanji:"参", meaning:"එක්වීම / සම්බන්ධ වීම"},
+  {kanji:"受", meaning:"පිළිගැනීම / ලැබීම"},
+  {kanji:"供", meaning:"පිරිනැමීම / සපයනවා"},
+  {kanji:"価", meaning:"මිල / අගය"},
+  {kanji:"限", meaning:"සීමාව"},
+  {kanji:"況", meaning:"තත්ත්වය"},
+  {kanji:"裁", meaning:"තීරණය /裁判 - නීතිය"},
+  {kanji:"務", meaning:"කාර්යය / යුතුකම"},
+  {kanji:"権", meaning:"අයිතිය / බලය"},
+  {kanji:"設", meaning:"තැනීම / 設備 - පහසුකම"},
+  {kanji:"軍", meaning:"යුධ හමුදාව"},
+  {kanji:"団", meaning:"කණ්ඩායම / සංවිධානය"},
+  {kanji:"県", meaning:"ප්‍රාන්තය"},
+  {kanji:"兆", meaning:"ලක්ෂණය / සංඛ්‍යාව"},
+  {kanji:"営", meaning:"ව්‍යාපාරය / කළමනාකරණය"},
+  {kanji:"比", meaning:"සංසන්දනය"},
+  {kanji:"構", meaning:"ව්‍යුහය / ගොඩනැගීම"},
+  {kanji:"許", meaning:"අනුමැතිය"},
+  {kanji:"証", meaning:"තහවුරු කිරීම / සාක්ෂි"},
+  {kanji:"評", meaning:"විවේචනය / ඇගයීම"},
+  {kanji:"課", meaning:"පන්තිය / මූලික කාර්යය"},
+  {kanji:"講", meaning:"ඉගැන්වීම / දේශනය"},
+  {kanji:"謝", meaning:"කණගාටු / ස්තූති"},
+  {kanji:"資", meaning:"අරමුදල් / සම්පත්"},
+  {kanji:"護", meaning:"ආරක්ෂාව / රැකවරණය"},
+  {kanji:"豊", meaning:"පරිපූර්ණ / පොහොසත්"},
+  {kanji:"輸", meaning:"ගෙනයාම / ගෙනියනවා"},
+  {kanji:"述", meaning:"විස්තර කරනවා / ප්‍රකාශය"},
+  {kanji:"迷", meaning:"මගුල් / ගැටළු"},
+  {kanji:"夢", meaning:"සිහින"},
+  {kanji:"達", meaning:"ලඟා වීම / පිරිස"},
+  {kanji:"隊", meaning:"ඇල / බලකාය"},
+  {kanji:"線", meaning:"රේඛාව"},
+  {kanji:"階", meaning:"මහල / පියං"},
+  {kanji:"陸", meaning:"බිම / දේශය"},
+  {kanji:"静", meaning:"නිවන් / සන්සුන්"},
+  {kanji:"順", meaning:"අනුපිළිවෙල"},
+  {kanji:"願", meaning:"ඉල්ලීම / ප්‍රාර්ථනාව"},
+  {kanji:"類", meaning:"වර්ගය / කාණ්ඩය"},
+]
+  };
+
+  let selectedKanjiLevel = null;
+  let kanjiQuizPool = [];
+  let kanjiCurrentIdx = 0;
+  let kanjiScore = 0;
+  let kanjiAnswered = false;
+
+  function chooseKanjiLevel(level) {
+    selectedKanjiLevel = level;
+    document.getElementById("kanjiLevelMenu").style.display = "none";
+    document.getElementById("kanjiPartMenu").style.display = "block";
+    document.getElementById("kanjiFinalResultArea").style.display = "none";
+    document.getElementById("kanjiLevelTitle").textContent = `${level} Level - Kanji ${kanjiSets[level].length}ක් ඇත`;
+
+    const partsDiv = document.getElementById("kanjiParts");
+    partsDiv.innerHTML = "";
+    document.getElementById("selectAllKanji").checked = false;
+
+    const data = kanjiSets[level];
+    let chunkCount = Math.ceil(data.length / 10);
+
+    for (let i = 0; i < chunkCount; i++) {
+      const wrapper = document.createElement("div");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.className = "kanji-part-checkbox";
+      cb.id = "kpart" + i;
+      cb.value = i;
+      
+      const lbl = document.createElement("label");
+      lbl.htmlFor = "kpart" + i;
+      const start = i * 10 + 1;
+      const end = Math.min((i + 1) * 10, data.length);
+      lbl.textContent = ` Part ${i + 1} (${start}-${end})`;
+
+      wrapper.appendChild(cb);
+      wrapper.appendChild(lbl);
+      partsDiv.appendChild(wrapper);
+    }
+  }
+
+  function toggleSelectAll(master) {
+    document.querySelectorAll('.kanji-part-checkbox').forEach(cb => cb.checked = master.checked);
+  }
+
+  function startKanjiQuiz() {
+    let selectedData = [];
+    const data = kanjiSets[selectedKanjiLevel];
+    const checkboxes = document.querySelectorAll('.kanji-part-checkbox');
+
+    checkboxes.forEach((cb, idx) => {
+      if (cb.checked) {
+        selectedData = selectedData.concat(data.slice(idx * 10, (idx + 1) * 10));
+      }
+    });
+
+    if (selectedData.length === 0) {
+      alert("කරුණාකර අවම වශයෙන් එක් කොටසක්වත් තෝරන්න!");
+      return;
+    }
+
+    kanjiQuizPool = selectedData.sort(() => Math.random() - 0.5);
+    const qSel = document.getElementById("kanjiQuestionCount").value;
+    if (qSel !== "all") {
+      kanjiQuizPool = kanjiQuizPool.slice(0, parseInt(qSel));
+    }
+
+    kanjiScore = 0;
+    kanjiCurrentIdx = 0;
+
+    document.getElementById("kanjiPartMenu").style.display = "none";
+    document.getElementById("kanjiQuizArea").style.display = "block";
+    renderKanjiQuestion();
+  }
+
+  function renderKanjiQuestion() {
+    kanjiAnswered = false;
+    document.getElementById("resultMsg").textContent = "";
+    
+    const cur = kanjiQuizPool[kanjiCurrentIdx];
+    document.getElementById("kanjiBox").textContent = cur.kanji;
+    document.getElementById("questionProgress").textContent = `Question: ${kanjiCurrentIdx + 1} / ${kanjiQuizPool.length}`;
+    document.getElementById("scoreText").textContent = `Score: ${kanjiScore}`;
+
+    const allMeanings = Array.from(new Set(kanjiSets[selectedKanjiLevel].map(k => k.meaning)));
+    let choices = [cur.meaning];
+
+    while (choices.length < 4 && choices.length < allMeanings.length) {
+      const randMeaning = allMeanings[Math.floor(Math.random() * allMeanings.length)];
+      if (!choices.includes(randMeaning)) choices.push(randMeaning);
+    }
+    choices.sort(() => Math.random() - 0.5);
+
+    const optionsDiv = document.getElementById("kanjiOptions");
+    optionsDiv.innerHTML = "";
+
+    choices.forEach(optText => {
+      const btn = document.createElement("button");
+      btn.className = "optionBtn";
+      btn.textContent = optText;
+      btn.onclick = () => checkKanjiAnswer(btn, optText, cur.meaning);
+      optionsDiv.appendChild(btn);
+    });
+  }
+
+  function checkKanjiAnswer(btn, selected, correct) {
+    if (kanjiAnswered) return;
+    kanjiAnswered = true;
+
+    const allButtons = document.querySelectorAll('#kanjiOptions .optionBtn');
+    
+    if (selected === correct) {
+      kanjiScore++;
+      btn.classList.add('correct');
+      document.getElementById("resultMsg").textContent = "✅ නිවැරදියි!";
+      document.getElementById("resultMsg").style.color = "var(--success-color)";
+    } else {
+      btn.classList.add('wrong');
+      document.getElementById("resultMsg").textContent = `❌ වැරදියි! නිවැරදි පිළිතුර: ${correct}`;
+      document.getElementById("resultMsg").style.color = "var(--error-color)";
+      
+      allButtons.forEach(b => {
+        if (b.textContent === correct) b.classList.add('correct');
+      });
+    }
+
+    document.getElementById("scoreText").textContent = `Score: ${kanjiScore}`;
+
+    setTimeout(() => {
+      kanjiCurrentIdx++;
+      if (kanjiCurrentIdx < kanjiQuizPool.length) {
+        renderKanjiQuestion();
+      } else {
+        document.getElementById("kanjiQuizArea").style.display = "none";
+        document.getElementById("kanjiFinalResultArea").style.display = "block";
+        renderFinalResult(kanjiScore, kanjiQuizPool.length, "kanjiFinalAnimation", "kanjiFinalResultText", "kanjiFinalMessage");
+      }
+    }, 1500);
+  }
+</script>
+
+</body>
+</html>
